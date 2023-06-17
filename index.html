@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Data Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        iframe {
+            width: 100%;
+            height: 500px; /* Sesuaikan dengan tinggi yang diinginkan */
+        }
+    </style>
+</head>
+<body>
+    <h1>API Data Table</h1>
+    <table id="data-table"></table>
+    <iframe src="'https://jsonplaceholder.typicode.com/posts'"></iframe>
+    
+    <script>
+        // Mengambil data dari API dan menampilkan dalam tabel
+        fetch('https://jsonplaceholder.typicode.com/posts')
+            .then(response => response.json())
+            .then(data => {
+                const table = document.getElementById('data-table');
+                const headerRow = document.createElement('tr');
+                
+                // Membuat header kolom
+                Object.keys(data[0]).forEach(key => {
+                    const headerCell = document.createElement('th');
+                    headerCell.textContent = key;
+                    headerRow.appendChild(headerCell);
+                });
+                table.appendChild(headerRow);
+                
+                // Mengisi data ke dalam tabel
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    
+                    Object.values(item).forEach(value => {
+                        const cell = document.createElement('td');
+                        cell.textContent = value;
+                        row.appendChild(cell);
+                    });
+                    
+                    table.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
+</body>
+</html>
